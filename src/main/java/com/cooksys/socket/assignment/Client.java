@@ -14,40 +14,40 @@ import com.cooksys.socket.assignment.model.Student;
 
 public class Client {
 
-    public static void main(String[] args) {
-    	Socket s;
-    	Config config =new Config();
-    	try {
+	public static void main(String[] args) {
+		Socket s;
+		Config config = new Config();
+		try {
 			config = Utils.loadConfig("config/config.xml", Utils.createJAXBContext());
 		} catch (JAXBException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-    	
-    	try {
-    		System.out.println(config.getRemote().getPort()+" "+ config.getRemote().getHost());
-    		s = new Socket(config.getRemote().getHost(), config.getRemote().getPort());
-    		InputStream in=s.getInputStream();
-    		JAXBContext jaxb = Utils.createJAXBContext();
+
+		try {
+			System.out.println(config.getRemote().getPort() + " " + config.getRemote().getHost());
+			s = new Socket(config.getRemote().getHost(), config.getRemote().getPort());
+			InputStream in = s.getInputStream();
+			JAXBContext jaxb = Utils.createJAXBContext();
 			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
 			Student student = new Student();
-			student=(Student)unmarshaller.unmarshal( in);
-			System.out.println("First Name: "+student.getFirstName());
-			System.out.println("Last Name: "+student.getLastName());
-			System.out.println("Favorite Language: "+student.getFavoriteLanguage());
-			System.out.println("Favorite IDE: "+student.getFavoriteIDE());
-			System.out.println("Favorite Paradigm: "+student.getFavoriteParadigm());
+			student = (Student) unmarshaller.unmarshal(in);
+			System.out.println("First Name: " + student.getFirstName());
+			System.out.println("Last Name: " + student.getLastName());
+			System.out.println("Favorite Language: " + student.getFavoriteLanguage());
+			System.out.println("Favorite IDE: " + student.getFavoriteIDE());
+			System.out.println("Favorite Paradigm: " + student.getFavoriteParadigm());
 
-  	} catch (UnknownHostException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	} catch (IOException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	} catch (JAXBException e) {
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	System.out.println();
-    }
+		System.out.println();
+	}
 }
