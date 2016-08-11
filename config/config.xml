@@ -1,3 +1,3 @@
 <config>
-	<local port="12345"></local><remote host="localhost" port="12345"></remote>
+	<local port="12345"></local><remote host="10.1.1.196" port="12345"></remote>
 	<student-file-path>config/student.xml</student-file-path></config>
