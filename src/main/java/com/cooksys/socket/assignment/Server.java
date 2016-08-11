@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public class Server extends Utils {
+public class Server implements Runnable  {
 
 	/**
 	 * Reads a {@link Student} object from the given file path
@@ -52,10 +52,41 @@ public class Server extends Utils {
 									// user connects
 			Student student = loadStudent("config/student.xml", Utils.createJAXBContext());
 			OutputStream os = s.getOutputStream();
-			JAXBContext jaxb = createJAXBContext();
+			JAXBContext jaxb = Utils.createJAXBContext();
 			Marshaller marshaller = jaxb.createMarshaller();
 			marshaller.marshal(student, os);
 			os.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void run() {
+		ServerSocket ss;
+		Config config = new Config();
+		try {
+			config = Utils.loadConfig("config/config.xml", Utils.createJAXBContext());
+		} catch (JAXBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ss = new ServerSocket(config.getLocal().getPort());
+			Socket s = ss.accept(); // blocking call; program will pause until
+									// user connects
+			Student student = loadStudent("config/student.xml", Utils.createJAXBContext());
+			OutputStream os = s.getOutputStream();
+			JAXBContext jaxb = Utils.createJAXBContext();
+			Marshaller marshaller = jaxb.createMarshaller();
+			marshaller.marshal(student, os);
+			os.close();
+			System.out.println("test");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
