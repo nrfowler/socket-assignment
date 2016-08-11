@@ -1,1 +1,4 @@
-<config/>
+<config>
+	<lock port="8080"></lock><remote host="" child=""></remote>
+	<student-file-path>
+		</student-file-path></config>
