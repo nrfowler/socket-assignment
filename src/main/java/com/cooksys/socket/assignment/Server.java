@@ -3,7 +3,14 @@ package com.cooksys.socket.assignment;
 import com.cooksys.socket.assignment.model.Config;
 import com.cooksys.socket.assignment.model.Student;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -32,6 +39,26 @@ Student  student=new Student();
     }
 
     public static void main(String[] args) {
-        // TODO
+    	ServerSocket ss;
+    	Config config =new Config();
+    	try {
+			config = Utils.loadConfig("config/config.xml", Utils.createJAXBContext());
+		} catch (JAXBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ss = new ServerSocket(config.getLocal().getPort());
+			Socket s = ss.accept(); //blocking call; program will pause until user connects
+			InputStream in=s.getInputStream();
+			
+			Reader base = new InputStreamReader(in); //ISReader converts byte to String
+			
+			BufferedReader r = new BufferedReader(base);
+			System.out.println(r.readLine());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

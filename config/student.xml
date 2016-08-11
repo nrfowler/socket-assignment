@@ -1,1 +1,4 @@
-<student/>
+<student firstName="Nathan" lastName="Fowler">
+	<favorite-paradigm>OOP</favorite-paradigm>
+	<favorite-language>Java</favorite-language>
+	<favorite-ide>Eclipse</favorite-ide></student>

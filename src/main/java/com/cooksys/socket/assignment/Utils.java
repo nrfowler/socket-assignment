@@ -36,7 +36,7 @@ public class Utils {
         
 		try {
 			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-			config=(Config) unmarshaller.unmarshal(new File("configFilePath"));
+			config=(Config) unmarshaller.unmarshal(new File(configFilePath));
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
