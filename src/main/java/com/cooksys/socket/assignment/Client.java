@@ -25,6 +25,7 @@ public class Client {
 		}
     	
     	try {
+    		System.out.println(config.getRemote().getPort());
     		s = new Socket(config.getRemote().getHost(), config.getRemote().getPort());
     		OutputStream os = s.getOutputStream();
     		OutputStreamWriter w = new OutputStreamWriter(os);

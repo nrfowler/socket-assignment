@@ -1,4 +1,4 @@
 <config>
-	<lock port="12543"></lock><remote host="" child=""></remote>
+	<local port="12345"></local><remote host="localhost" port="12345"></remote>
 	<student-file-path>
 		</student-file-path></config>

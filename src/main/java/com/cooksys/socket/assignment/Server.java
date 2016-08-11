@@ -56,6 +56,8 @@ Student  student=new Student();
 			
 			BufferedReader r = new BufferedReader(base);
 			System.out.println(r.readLine());
+			ss.close();
+			r.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
