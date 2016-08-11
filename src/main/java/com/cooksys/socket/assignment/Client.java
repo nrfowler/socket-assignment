@@ -1,16 +1,16 @@
 package com.cooksys.socket.assignment;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
-import com.cooksys.socket.assignment.Utils;
 import com.cooksys.socket.assignment.model.Config;
+import com.cooksys.socket.assignment.model.Student;
 
 public class Client {
 
@@ -25,21 +25,29 @@ public class Client {
 		}
     	
     	try {
-    		System.out.println(config.getRemote().getPort());
+    		System.out.println(config.getRemote().getPort()+" "+ config.getRemote().getHost());
     		s = new Socket(config.getRemote().getHost(), config.getRemote().getPort());
-    		OutputStream os = s.getOutputStream();
-    		OutputStreamWriter w = new OutputStreamWriter(os);
-    		//BufferedOutputStream bos = new BufferedOutputStream(os);
-    		BufferedWriter bw = new BufferedWriter(w);
-    		bw.write("Nathan");
-    		bw.close();
-    	} catch (UnknownHostException e) {
+    		InputStream in=s.getInputStream();
+    		JAXBContext jaxb = Utils.createJAXBContext();
+			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+			Student student = new Student();
+			student=(Student)unmarshaller.unmarshal( in);
+			System.out.println("First Name: "+student.getFirstName());
+			System.out.println("Last Name: "+student.getLastName());
+			System.out.println("Favorite Language: "+student.getFavoriteLanguage());
+			System.out.println("Favorite IDE: "+student.getFavoriteIDE());
+			System.out.println("Favorite Paradigm: "+student.getFavoriteParadigm());
+
+  	} catch (UnknownHostException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
     	} catch (IOException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
-    	}
+    	} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	System.out.println();
     }
 }

@@ -4,16 +4,20 @@ import com.cooksys.socket.assignment.model.Config;
 import com.cooksys.socket.assignment.model.Student;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class Server extends Utils {
@@ -30,7 +34,7 @@ Student  student=new Student();
         
 		try {
 			Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-			student=(Student) unmarshaller.unmarshal(new File("StudentFilePath"));
+			student=(Student) unmarshaller.unmarshal(new File(studentFilePath));
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,15 +54,17 @@ Student  student=new Student();
 		try {
 			ss = new ServerSocket(config.getLocal().getPort());
 			Socket s = ss.accept(); //blocking call; program will pause until user connects
-			InputStream in=s.getInputStream();
-			
-			Reader base = new InputStreamReader(in); //ISReader converts byte to String
-			
-			BufferedReader r = new BufferedReader(base);
-			System.out.println(r.readLine());
-			ss.close();
-			r.close();
+			Student student = loadStudent("config/student.xml",Utils.createJAXBContext());
+			OutputStream os = s.getOutputStream();
+			JAXBContext jaxb = createJAXBContext();
+			Marshaller marshaller = jaxb.createMarshaller();
+			marshaller.marshal(student, os);
+			os.close();
+    		
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
